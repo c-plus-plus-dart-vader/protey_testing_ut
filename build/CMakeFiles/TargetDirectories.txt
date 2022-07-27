@@ -1,0 +1,3 @@
+/home/boldyrev/testing/protey/build/CMakeFiles/rebuild_cache.dir
+/home/boldyrev/testing/protey/build/CMakeFiles/edit_cache.dir
+/home/boldyrev/testing/protey/build/CMakeFiles/protey_testing.dir
