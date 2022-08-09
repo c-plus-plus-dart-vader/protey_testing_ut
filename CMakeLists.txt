@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(
 ${CMAKE_CURRENT_SOURCE_DIR}/../../protey_client
 ${CMAKE_CURRENT_SOURCE_DIR}/../../protey_server
+$(CMAKE_CURRENT_SOURCE_DIR)/../../common
 )
 
 set(SRC 

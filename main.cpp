@@ -31,7 +31,7 @@ TEST(ProteyTest, Test_1)
 		"N 8  9 R 7 4 D - 2 PPPPP 8 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN                  785",
 		"        11       N8HG  586                                                                                    ??????????? ",
 		"                                                                                                                   ",
-		string(5100, 'R')
+		string(43 * 499, 'R')
 	};
 	const vector<string> responses = {
 		requests[0],
@@ -43,6 +43,25 @@ TEST(ProteyTest, Test_1)
 		requests[6]
 	};
 	
+	const vector<string> other_requests = {
+		"HHHHHHHHHHGGGGGGGGGGGGGGGGGGGGNNNNNNNNNNNNNNNNNNNMMMMMMMMMMMMMMMEEEEEEEEEEEEEEEEEEEEEEEEEEEHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
+		"34 WESIUNF 57 IS    12HU     #############    10? 149499  68 ??????HGJNHAQOI89NNNNNN&??^^^^^$$$$$$$$$RRRRRRRRRRRLK         WWWWWWWWWWWWWWWOOOOOZZZZZZZ.,DSF,,SEDFR 5",
+		"WWWWWWWWWWWWW               BBBBBBBBBBB                       //////////////////////////        RRRRRRRRRRRRRRR/////////////////&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&                      )))))))))))))))))  ------------",
+		"N 10  11 R 9 6 D - 4 PPPPP 10 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN\"\"\"\"NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN                  787",
+		"        14       N11HtttttttG  589                                                                                    ??????????? UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+		"                                                                        yyyyyyyyyyYYYYYYYYYYYYYYYYyyyYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+		string(43 * 195, 'J')
+	};
+	const vector<string> other_responses = {
+		other_requests[0],
+		"5 10 12 34 57 68 89 149499\n149774",
+		other_requests[2],
+		"4 6 9 10 10 11 787\n837",
+		"11 14 589\n614",
+		other_requests[5],
+		other_requests[6]
+	};
+	
 	uint16_t listening_server_port = 8790;
 	
 	thread server([listening_server_port, p = make_unique<Server>()]
@@ -52,7 +71,7 @@ TEST(ProteyTest, Test_1)
 	}
 	);
 	
-	this_thread::sleep_for(chrono::milliseconds(20));
+	this_thread::sleep_for(chrono::milliseconds(50));
 	
 	char port_str[6];
 	auto ret = to_chars(port_str, &port_str[5],listening_server_port);
@@ -63,11 +82,14 @@ TEST(ProteyTest, Test_1)
 	string_view tcp_proto{"TCP"};
 	string_view udp_proto{"UDP"};
 
-	clients.emplace_back(client_process, requests, responses, tcp_proto, port_sv);
-	clients.emplace_back(client_process, requests, responses, tcp_proto, port_sv);
-	clients.emplace_back(client_process, requests, responses, tcp_proto, port_sv);
-	clients.emplace_back(client_process, requests, responses, udp_proto, port_sv);
-	clients.emplace_back(client_process, requests, responses, udp_proto, port_sv);
+	clients.emplace_back(client_process, requests,       responses,       tcp_proto, port_sv);
+	clients.emplace_back(client_process, other_requests, other_responses, tcp_proto, port_sv);
+	clients.emplace_back(client_process, requests,       responses,       tcp_proto, port_sv);
+	clients.emplace_back(client_process, other_requests, other_responses, tcp_proto, port_sv);
+	clients.emplace_back(client_process, requests,       responses,       udp_proto, port_sv);
+	clients.emplace_back(client_process, other_requests, other_responses, udp_proto, port_sv);
+	clients.emplace_back(client_process, requests,       responses,       udp_proto, port_sv);
+	clients.emplace_back(client_process, other_requests, other_responses, udp_proto, port_sv);
 	
 	for (auto& t : clients){ t.join(); }
 	server.join();

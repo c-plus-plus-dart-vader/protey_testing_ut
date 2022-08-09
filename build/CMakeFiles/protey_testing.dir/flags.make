@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=gnu++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/boldyrev/testing/protey/../../protey_client -I/home/boldyrev/testing/protey/../../protey_server 
+CXX_INCLUDES = -I/home/boldyrev/testing/protey/../../protey_client -I/home/boldyrev/testing/protey/../../protey_server -I/home/boldyrev/testing/protey/$(CMAKE_CURRENT_SOURCE_DIR)/../../common 
 

@@ -14,6 +14,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../../../protey_client"
   "../../../protey_server"
+  "../$(CMAKE_CURRENT_SOURCE_DIR)/../../common"
   )
 
 # Targets to which this target links.
